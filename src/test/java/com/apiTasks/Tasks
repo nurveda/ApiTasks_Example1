@@ -22,6 +22,7 @@ TC02 --> spartanApi
            name is "Lorenza",
            gender is "Female",
            phone is 3312820936
+           (use path method)
 
 TC03 --> spartanApi
          * Task
