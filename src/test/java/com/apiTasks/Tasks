@@ -1,0 +1,128 @@
+TC01 --> spartanApi
+      Given accept type is json
+      And path param spartan id is 11 (do not use this num, use different number)
+      When user sends a get request to /spartans/{id}
+      Then status code is 200
+      And content type is Json
+      And
+      "id": 11,
+      "name": "Nona",
+      "gender": "Female",
+      "phone": 7959094216
+
+TC02 --> spartanApi
+        * Given accept type is json
+        * And path param id is 10 (do not use this num, use different number)
+        * When user sends a get request to "api/spartans/{id}"
+        * Then status code is 200
+        * And content-type is "application/json;charset=UTF-8"
+        * And response payload values match the following:
+           id is 10,
+           name is "Lorenza",
+           gender is "Female",
+           phone is 3312820936
+
+TC03 --> spartanApi
+         * Task
+         * Given accept type is Json
+         * And ıd parameter value is 5 (do not use this num, use different number)
+         * When user sends GET request to /api/spartans/{id}
+         * Then response status code should be 200
+         * And response content-type: application/json;charset=UTF-8
+         * And "Blythe" should be in the payload --> means body(people likes to use fancy word)
+
+
+ TC04 --> spartanApi
+           * When user sends a get request to api/spartans/3
+           * Then status code should be 200
+           * And content type should be application/json;charset=UFT-8
+           * And name should contain Fidole
+
+           ( u can try this data as well...
+           id   name    phone       gender
+           7	Hershel 5278678322	Male
+           12	Sol     7006438852	Male
+           29	Dorelle	6687391932	Female
+           67	Janette	9887020445	Female
+           )
+
+
+TC05 --> HRApi
+               * Given, accept type is json
+               * When user sends get request to regions/3
+               * Then response status code is must be 200
+               * and body format is json
+               * and response body contains Asia
+
+
+TC06 --> spartanApi
+       given accept type is Json
+             And path param id is 15
+             When user sends a get request to spartans/{id}
+             Then status code is 200
+             And content type is Json
+             And json data has following
+                 "id": 15,
+                 "name": "Meta",
+                 "gender": "Female",
+                 "phone": 1938695106
+
+TC07 --> spartanApi
+      Creat spartan flow like:
+          @BeforeClass
+          public void beforeclass(){
+              baseURI= ConfigurationReader.get("spartan_api_url");
+          }
+          @Test(priority = 1)
+          public void POSTNewSpartan(){}
+
+          @Test(priority = 2)
+          public void PUTExistingSpartan(){}
+
+          @Test
+          public void PATCHExistingSpartan(){}
+
+          @Test
+          public void GETThatSpartan(){}
+
+          @Test
+          public void DELETEThatSpartan(){}
+      }
+
+TC08 --> zippopotamApi
+     given accept type is Json
+     And path param postal-code is your own city (mine is bursa --> 16000, antalya --> 07000, izmir--> 3500, konya -->42000 ...)
+     when sends a get request to api.zippopotam.us/TR/{postal-code}
+     Then status code should be 200
+     and content type should be application/json
+     and "Date", "Connection","Server","Content-Encoding" headers needs to be exist in response headers
+
+TC09 --> zippopotamApi
+          given accept type is Json
+          And path param "postal-code" is your own city (mine is bursa --> 16000, antalya --> 07000, izmir--> 3500, konya -->42000 ...)
+          when sends a get request to api.zippopotam.us/TR/{postal-code}
+          Then status code should be 200
+          and "content type" should be application/json
+          and "state" should be ur city
+
+TC10 --> zippopotamApi
+             given accept type is Json
+             And path param postal-code is 42000
+             when sends a get request to api.zippopotam.us/TR/{postal-code}
+             Then status code should be 200
+             and content type should be application/json
+             and each "state" should be Konya
+             and each "state abbreviation" should be 42
+
+
+
+credentials:
+zip tasks --> u can receive document by this url
+http://api.zippopotam.us
+
+spartan tasks --> u can receive document ur ec2 machine code and :8000
+urOwnMachine:8000
+
+hr tasks -->
+urOwnMachine:1000/ords/hr
+for regions --> urOwnMachine:1000/ords/hr/regions
