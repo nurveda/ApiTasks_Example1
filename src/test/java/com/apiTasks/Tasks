@@ -9,6 +9,7 @@ TC01 --> spartanApi
       "name": "Nona",
       "gender": "Female",
       "phone": 7959094216
+      (use hamcrest matchers)
 
 TC02 --> spartanApi
         * Given accept type is json
