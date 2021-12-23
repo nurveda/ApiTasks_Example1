@@ -16,7 +16,7 @@ TC02 --> spartanApi
         * And path param id is 10 (do not use this num, use different number)
         * When user sends a get request to "api/spartans/{id}"
         * Then status code is 200
-        * And content-type is "application/json;charset=UTF-8"
+        * And content-type is "application/json"
         * And response payload values match the following:
            id is 10,
            name is "Lorenza",
@@ -25,12 +25,11 @@ TC02 --> spartanApi
            (use path method)
 
 TC03 --> spartanApi
-         * Task
          * Given accept type is Json
          * And ıd parameter value is 5 (do not use this num, use different number)
          * When user sends GET request to /api/spartans/{id}
          * Then response status code should be 200
-         * And response content-type: application/json;charset=UTF-8
+         * And response content-type: application/json
          * And "Blythe" should be in the payload --> means body(people likes to use fancy word)
 
 
