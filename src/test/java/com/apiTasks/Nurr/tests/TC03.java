@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 public class TC03 {
 
     @BeforeClass
-    public void beforeClass(){
+    public void initalConnection(){
         baseURI= "http://54.166.122.207:8000";
     }
 

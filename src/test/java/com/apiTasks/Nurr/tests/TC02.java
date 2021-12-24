@@ -26,7 +26,7 @@ import static org.testng.AssertJUnit.*;
 public class TC02 {
 
     @BeforeClass
-    public void beforeClass(){
+    public void initalConnection(){
         baseURI= "http://54.166.122.207:8000";
     }
 
