@@ -1,5 +1,6 @@
 package com.apiTasks.Nurr.tests;
 
+import com.apiTasks.Nurr.tests.utilities.GlobalDataStore;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -16,7 +17,6 @@ import static org.testng.AssertJUnit.*;
 
 public class TC07 {
 
-    static  int postID;
     String postMsg;
 
     @BeforeClass
@@ -36,7 +36,7 @@ public class TC07 {
 
         Map<String, Object> spartanInfos= new LinkedHashMap<>();  //we can use HashMap as well
         spartanInfos.put("gender","Male");
-        spartanInfos.put("name","CengizAtay");
+        spartanInfos.put("name","deneme1");
         spartanInfos.put("phone", 1212121212L);
         System.out.println("spartanInfos = " + spartanInfos); //i created my map then im gonna add it to my request
 
@@ -49,7 +49,7 @@ public class TC07 {
         postRequest.prettyPrint();
 
 
-        postID= postRequest.path("data.id");
+        GlobalDataStore.globalID = postRequest.path("data.id");
 
         postMsg= postRequest.path("success");
 
@@ -58,30 +58,72 @@ public class TC07 {
         assertEquals(postMsg,"A Spartan is Born!");
 
         //to verify ID is matching with created one u need to use get request
-        given().accept(ContentType.JSON)
-                .and().pathParam("id",postID)
-                .when().get("/api/spartans/{id}")
-                .then().assertThat().statusCode(200).log().all();
+        Response response = given().accept(ContentType.JSON)
+                .and().pathParam("id", GlobalDataStore.globalID)
+                .when().get("/api/spartans/{id}");
+        response.prettyPrint();
+        assertEquals(200, response.statusCode());
     }
-
 
     @Test
     public void updateSpartanWithPut(){
 
         Map<String, Object> spartanNewInfos= new HashMap<>();
-        spartanNewInfos.put("gender","Female");
-        spartanNewInfos.put("name","Eysann");
-        spartanNewInfos.put("phone",2222222222L);
-        System.out.println("postID = " + postID); //it returns 0 WHY? i made it static as well --> look for solutions
+        spartanNewInfos.put("gender","Male");
+        spartanNewInfos.put("name","denemeBaşarılı");
+        spartanNewInfos.put("phone",1212121212L);
+        System.out.println("GlobalDataStore.globalID = " + GlobalDataStore.globalID); //it returns 0 WHY? i wanna make dynamic i made it static as well --> look for solutions later
 
-        given().accept(ContentType.JSON).log().all()
+        Response putRequest = given()
                 .and().contentType(ContentType.JSON)
-                .pathParam("id",120)
+                .pathParam("id", 125)
                 .and().body(spartanNewInfos)
-                .when().put("/api/spartans/{id}")
-                .then().assertThat().statusCode(204).log().all();
+                .when().put("/api/spartans/{id}");
+
+        putRequest.prettyPrint();
+        assertEquals(204,putRequest.statusCode());
 
 
-
+        //USE DYNAMICALLY TRY TO SOLVE IT --> GIVES INTERNAL SERVER ERROR TRY TO FIX IT LATER
     }
+
+
+
+    @Test
+    public void updateWithPatch(){
+        Map<String,Object> patchSpartan= new HashMap<>();
+        patchSpartan.put("phone",3333333333L);
+
+        Response patchResponse = given().contentType(ContentType.JSON)
+                .and().pathParam("id", 125)
+                .body(patchSpartan)
+                .when().patch("/api/spartans/{id}");
+
+        System.out.println("patchResponse.statusCode() = " + patchResponse.statusCode());
+        assertEquals(204, patchResponse.statusCode());
+    }
+
+
+    @Test
+    public void getTheSpartan(){
+
+        given().accept(ContentType.JSON)
+                .and().contentType(ContentType.JSON)
+                .and().pathParam("id",125)
+                .when().get("api/spartans/{id}")
+                .then().assertThat().statusCode(200)
+                .and().contentType("application/json").log().all();
+    }
+
+
+    @Test
+    public void deleteTheSpartan(){
+        //u can delete 118,119,121,122,123,124
+        given().pathParam("id",117)
+                .and().delete("/api/spartans/{id}")
+                .then().assertThat().statusCode(204);
+    }
+
+
+
 }
